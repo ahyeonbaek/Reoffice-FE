@@ -28,17 +28,18 @@ export interface Reservation {
   user: { id: string; name: string; email: string };
   room: string;
   date: Date;
-  startTime: Date;
-  endTime: Date;
+  startTime: number;
+  endTime: number;
   participant?: string;
 }
 
 export interface ReservationForm {
-  userId: string;
+  userEmail: string;
   roomId: string;
+  roomName: string;
   date: Date;
-  startTime: string | Date | null;
-  endTime: string | Date | null;
+  startTime: number;
+  endTime: number;
   title: string;
   participant?: string[];
 }
