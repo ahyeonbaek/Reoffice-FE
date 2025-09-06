@@ -8,9 +8,14 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./*"],
-      "@api/*": ["src/apis/*"],
-      "@consts/*": ["src/consts/*"]
+      "@/*": ["./src/*"],
+      "@apis/*": ["./src/apis/*"],
+      "@components/*": ["./src/components/*"],
+      "@consts/*": ["./src/consts/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@route/*": ["./src/route/*"],
+      "@types/*": ["./src/types/*"],
+      "@zustand/*": ["./src/zustand/*"]
     },
 
     /* Bundler mode */
