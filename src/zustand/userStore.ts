@@ -1,5 +1,5 @@
+import { Reservation, User } from "@/types/type";
 import { create } from "zustand";
-import { Reservation, User } from "../types/type";
 import { persist } from "zustand/middleware";
 
 interface userState {
@@ -7,7 +7,7 @@ interface userState {
   isLoggedIn: boolean;
 
   setUser: (user: User) => void;
-  updateUser: (updates: Partial<Omit<User, "id">> & { id: string }) => void;
+  updateUser: (updates: Partial<Omit<User, "id">>) => void;
   logout: () => void;
 
   addReservation: (reservation: Reservation) => void;
