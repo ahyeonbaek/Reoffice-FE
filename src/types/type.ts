@@ -1,4 +1,5 @@
 export interface User {
+  id?: string;
   email: string;
   name: string;
   profileImg?: string;
@@ -9,15 +10,15 @@ export interface MeetingRoom {
   id: string;
   name: string;
   capacity: number;
-  rocation: string;
-  reservations: [
+  location: string;
+  reservations?: [
     {
       id: string;
       user: { id: string; name: string; email: string };
       date: Date;
       startTime: Date;
       endTime: Date;
-      participant: [string];
+      participant?: [string];
     }
   ];
 }
@@ -29,7 +30,17 @@ export interface Reservation {
   date: Date;
   startTime: Date;
   endTime: Date;
-  participant: string;
+  participant?: string;
+}
+
+export interface ReservationForm {
+  userId: string;
+  roomId: string;
+  date: Date;
+  startTime: string | Date | null;
+  endTime: string | Date | null;
+  title: string;
+  participant?: string[];
 }
 
 //생성할 때
