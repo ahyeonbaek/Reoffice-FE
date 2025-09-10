@@ -3,13 +3,13 @@ import { ReservationForm } from "@/types/type";
 import useUserStore from "@/zustand/userStore";
 import { Modal } from "ahyeon-react-ui-kit";
 import { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface ModalComponentProps {
   isOpen: boolean;
   reservationForm: ReservationForm;
   capacity: number;
   location: string;
-
   handleCloseModal: () => void;
 }
 
@@ -18,11 +18,11 @@ const ModalComponent = ({
   reservationForm,
   capacity,
   location,
-
   handleCloseModal,
 }: ModalComponentProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const { user, addReservation } = useUserStore();
+  const navigate = useNavigate();
 
   const handleChangeCheck = (e: ChangeEvent<HTMLInputElement>) => {
     setIsChecked(e.target.checked);
@@ -35,9 +35,15 @@ const ModalComponent = ({
         const newReservation = response.data.reservation;
         addReservation(newReservation);
         alert("회의실 예약이 완료되었습니다.");
+        navigate(0);
       }
-    } catch (err) {
-      console.error(err, "예약 생성 실패");
+    } catch (err: any) {
+      if (err.response?.status === 409) {
+        alert("이미 예약된 시간입니다. 다시 시도해주세요.");
+        handleCloseModal();
+      } else {
+        console.error(err, "예약 생성 실패");
+      }
     }
   };
 
@@ -55,7 +61,7 @@ const ModalComponent = ({
       top-1/2 left-1/2 
       -translate-x-1/2 -translate-y-1/2 
       bg-white rounded-lg 
-      w-[90%] h-[60%]
+      w-[90%] h-[70%]
       overflow-hidden p-16 shadow-lg
       sm:w-[70%]
       max-h-screen 
@@ -94,9 +100,7 @@ const ModalComponent = ({
                   alt="달력 아이콘"
                   className="w-[20px]"
                 />
-                <p className="text-[17px]">
-                  날짜 : {reservationForm.date.toLocaleDateString()}
-                </p>
+                <p className="text-[17px]">날짜 : {reservationForm.date}</p>
               </li>
               <li className="flex items-center gap-3 pb-5">
                 <img
