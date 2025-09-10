@@ -1,20 +1,39 @@
+import { instance } from "@/apis/axiosInterceptor";
 import Calendar from "@/components/calendar";
-import { SetStateAction, useState } from "react";
+import { SetStateAction } from "react";
 
 interface CalendarComponentProps {
   date: Date;
   setDate: React.Dispatch<SetStateAction<Date>>;
+  meetingRoom: string;
 }
 
-const CalendarComponent = ({ date, setDate }: CalendarComponentProps) => {
+const CalendarComponent = ({
+  date,
+  setDate,
+  meetingRoom,
+}: CalendarComponentProps) => {
   const today = new Date();
-  const onChange = (select: Date) => {
-    setDate(select);
+  const onChange = async (selectDate: Date) => {
+    const monthOfDay = selectDate.toLocaleDateString();
+    console.log("monthOfDay", monthOfDay, meetingRoom);
+    try {
+      setDate(selectDate);
+      const response = await instance.get(
+        `/reservation/?date=${monthOfDay}&roomId=${meetingRoom}`
+      );
+      if (response.status === 200) {
+        console.log(response.data.data);
+      }
+    } catch (err) {
+      console.error(err, "예약내역 불러오기 실패");
+    }
   };
 
-  const handleClickToday = (day: Date) => {
+  const handleClickToday = async (day: Date) => {
     setDate(day);
   };
+
   return (
     <div>
       <Calendar date={date} onChange={onChange}>
@@ -40,7 +59,8 @@ const CalendarComponent = ({ date, setDate }: CalendarComponentProps) => {
             dateContainerClassName="grid grid-cols-[repeat(7,1fr)]"
             calenderBtnClassName="min-w-[100px] w-full h-[100px] flex items-start justify-center "
             currentMonthClassName="text-[#cdcdcd]"
-            currentDateClassName="bg-blue-100 "
+            currentDateClassName="text-[#3071F5] "
+            selectDateClassName="bg-blue-100"
           />
         </div>
       </Calendar>
