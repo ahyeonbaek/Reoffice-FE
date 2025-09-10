@@ -5,11 +5,12 @@ import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import CalendarComponent from "./component/CalendarComponent";
 import ModalComponent from "./component/ModalComponent";
 import useUserStore from "@/zustand/userStore";
+import { set } from "zod";
 
 //회의실 가데이터
 const meetingRoom = [
   {
-    id: "1",
+    id: "68bbc8d281189e6bafd34fab",
     name: "회의실A",
     capacity: 10,
     location: "본관 1층",
@@ -44,7 +45,7 @@ const MainPage = () => {
     () => ({
       userEmail: user?.email || "",
       roomId: currentRoom.id,
-      date: date,
+      date: date.toLocaleDateString(),
       startTime: startTime,
       endTime: endTime,
       title: inputValue.title,
@@ -93,7 +94,6 @@ const MainPage = () => {
     if (e.key === "Enter") {
       setParticipantArr((prev) => [...prev, inputValue.participant]);
       setInputValue((prev) => ({ ...prev, participant: "" }));
-      console.log(participantArr);
     }
   };
 
@@ -103,7 +103,6 @@ const MainPage = () => {
   };
 
   const handleOpenModal = () => {
-    console.log(startTime, endTime);
     if (startTime === 0 || endTime === 0 || !inputValue.title.trim()) {
       alert("입력되지 않은 항목이 있습니다.");
       return;
@@ -144,7 +143,11 @@ const MainPage = () => {
 
   return (
     <div className="flex w-full flex-col gap-[20px]">
-      <CalendarComponent date={date} setDate={setDate} />
+      <CalendarComponent
+        date={date}
+        setDate={setDate}
+        meetingRoom={currentRoom.id}
+      />
       <div>
         <div className="flex gap-[20px]">
           {meetingRoom.map((room) => (
