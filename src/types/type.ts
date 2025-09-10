@@ -15,7 +15,7 @@ export interface MeetingRoom {
     {
       id: string;
       user: { id: string; name: string; email: string };
-      date: Date;
+      date: string;
       startTime: Date;
       endTime: Date;
       participant?: [string];
@@ -27,7 +27,7 @@ export interface Reservation {
   id?: string;
   user: { id: string; name: string; email: string };
   room: string;
-  date: Date;
+  date: string;
   startTime: number;
   endTime: number;
   participant?: string;
@@ -37,7 +37,7 @@ export interface ReservationForm {
   userEmail: string;
   roomId: string;
   roomName: string;
-  date: Date;
+  date: string;
   startTime: number;
   endTime: number;
   title: string;
